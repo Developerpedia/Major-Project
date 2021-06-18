@@ -40,51 +40,7 @@ h2{
     text-align: center;
  }
 
-.sidenav {
-  height: 100%;
-  width: 250px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #fff;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
 
-.sidenav a {
-  padding: 6px 6px 6px 24px;
-  text-decoration: none;
-  font-size: 20px;
-  color: #000;
-  display: block;
-  font-family:monospace;
-  text-align:left;
-}
-
-body {
-background:#dddddd; 
-background-size:cover;
-background-position:center;
-height:100vh; 
-background-attachment: fixed;
-}
-
-.sidenav a:hover,
-a:active{
-    color:#10efe6; 
-}
-
-.icon-small{
-    display:inline-block;
-    width:30px;
-    text-align:center;
-    color:#000;
-    font-size:20px;
-    line-height:100%;
-    vertical-align:center;
-    margin-top:-4px;
-}
 
 ul {
   list-style-type: none;
@@ -149,19 +105,18 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width:70%;
-  position:absolute;
-  left:23%;
   margin-top:2ch;
   background:#fff;
+  position:absolute;
+  left:18%;
   
 }
 
 td, th {
   border: 1px solid #dddddd;
   text-align: center;
-  padding: 8px 5ch 2ch 5ch;
+  padding: 8px 3ch 1ch 2ch;
   background:#fff;
-
 }
 
 tr:nth-child(even) {
@@ -181,34 +136,18 @@ table a:hover,a:active{
   color:#1dd1a1;
 }
 
+.link a{
+    color:#1dd1a1;
+    text-decoration:none;
+    font-size:18px;
+    margin-left:3ch;
+}
  </style>
  </head>
  <body>
 
- <div class="sidenav">
-   <h2>
-   <?php
-  session_start();
-  error_reporting(0);
-  echo $_SESSION['user_name'];
-  $userprofile = $_SESSION['user_name'];
-  if($userprofile==true)
-  {
 
-  }
-  else
-  {
-    header('location:index.php');
-  }
-  ?> 
-  </h2> 
-  <a href="admindashboard.php" class="w3-bar-item w3-button"><i class="ion-stats-bars icon-small"></i> Dashboard</a>
-  <a href="addstudent.php" class="w3-bar-item w3-button"><i class=" ion-calendar icon-small"></i> Add Student</a>
-  <a href="addstudent.php" class="w3-bar-item w3-button"><i class="ion-clipboard icon-small"></i> Add Teacher</a>
-  <a href="addsubject.php" class="w3-bar-item w3-button"><i class="ion-chatbox-working icon-small"></i> Add Subject</a>
-  <a href="Notice.php" class="w3-bar-item w3-button"><i class="ion-person icon-small"></i> Notice</a>
-</div>
-
+   
 <ul>
 <li><a href="#"><i class="ion-bookmark icon-med"></i>  </a></li>
   <li class="dropdown">
@@ -220,6 +159,14 @@ table a:hover,a:active{
     </div>
   </li>
 </ul>
+
+<div class="link">
+
+<a href="admindashboard.php">Go Back To Dashboard</a>
+
+</div>
+ 
+ 
 
 <?php 
 include("connection.php");
@@ -233,6 +180,7 @@ if($total != 0)
 <table>
   <tr>
     <th>Teacher ID</th>
+    <th>Profile pic</th>
     <th>Teacher Name</th>
     <th>Department</th>
     <th>Faculty Rank</th>
@@ -246,6 +194,7 @@ if($total != 0)
     {
         echo "<tr>
         <th>".$result['teacher-id']."</th>
+        <th><a href='$result[picsource]'><img src='".$result['picsource']."'height='100' widthh='100'/></a></th>
         <th>".$result['teachername']."</th>
         <th>".$result['department']."</th>
         <th>".$result['faculty']."</th>
