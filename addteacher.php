@@ -81,6 +81,7 @@ h2{
   padding-top:2ch;
  }
 
+
 .sidenav {
   height: 100%;
   width: 250px;
@@ -114,7 +115,6 @@ a:active{
     text-align:center;
     color:#000;
     font-size:20px;
-/* secrets to align text and icons */
     line-height:100%;
     vertical-align:center;
     margin-top:-4px;
@@ -140,6 +140,7 @@ input[type=text], select, textarea {
   margin-left:4ch;
 }
 
+
 input[type=submit] {
   background-color: #04AA6D;
   color: white;
@@ -149,6 +150,7 @@ input[type=submit] {
   cursor: pointer;
   margin-left:3ch;
   margin-bottom:2ch;
+  margin-top:1ch;
 }
 
 input[type=submit]:hover {
@@ -173,12 +175,27 @@ input[type=submit]:hover {
 </head>
 <body>
 <div class="sidenav">
-   <h2>Dr. Vivek Yadav</h2> 
+   <h2>
+   <?php
+  session_start();
+  error_reporting(0);
+  echo $_SESSION['user_name'];
+  $userprofile = $_SESSION['user_name'];
+  if($userprofile==true)
+  {
+
+  }
+  else
+  {
+    header('location:index.php');
+  }
+  ?>
+  </h2> 
   <a href="admindashboard.php" class="w3-bar-item w3-button"><i class="ion-stats-bars icon-small"></i> Dashboard</a>
-  <a href="adminpro.php" class="w3-bar-item w3-button"><i class="ion-person icon-small"></i> Profile</a>
   <a href="addstudent.php" class="w3-bar-item w3-button"><i class=" ion-calendar icon-small"></i> Add Student</a>
   <a style= "color:#10efe6" href="#" class="w3-bar-item w3-button"><i class="ion-clipboard icon-small"></i> Add Teacher</a>
-  <a href="#" class="w3-bar-item w3-button"><i class="ion-chatbox-working icon-small"></i> Add Course</a>
+  <a href="addsubject.php" class="w3-bar-item w3-button"><i class="ion-chatbox-working icon-small"></i> Add Subject</a>
+  <a href="Notice.php" class="w3-bar-item w3-button"><i class="ion-person icon-small"></i> Notice</a>
 </div>
 <ul>
 <li><a href="#"><i class="ion-bookmark icon-med"></i>  </a></li>
@@ -194,7 +211,7 @@ input[type=submit]:hover {
 
 <div class="container">
 <h3>Add New Teacher</h3>
-  <form action="" method="POST">
+  <form action="" method="POST" enctype="multipart/form-data">
     <label for="id">Teacher id</label>
     <input type="text" name="teacher-id" placeholder="Teacher id....">
 
@@ -218,6 +235,10 @@ input[type=submit]:hover {
       <option value="Associate Professor">Associate Professor</option>
       <option value="Professor">Professor</option>
     </select>
+     
+    <label for="uplo">Upload Image</label>
+    <input type="file" name="uploadfile" value=""/>
+     <br>
     <input type="submit" name="Submit" button="onclick" value="Add Teacher">
   </form>
 </div>
@@ -234,10 +255,14 @@ error_reporting(0);
   $tn = $_POST['teachername'];
   $dp = $_POST['department'];
   $fc = $_POST['faculty'];
+  $filename = $_FILES['uploadfile']["name"];
+  $tempname = $_FILES['uploadfile']['tmp_name'];
+  $folder = "student/".$filename;
+  move_uploaded_file($tempname,$folder);
 
-  if($te!="" && $tn!="" && $dp!="" && $fc!="")
+  if($te!="" && $tn!="" && $dp!="" && $fc!="" &&$filename!="")
   {
-    $query =  "INSERT INTO TEACHER VALUES ('$te', '$tn', '$dp', '$fc')";
+    $query =  "INSERT INTO TEACHER VALUES ('$te', '$tn', '$dp', '$fc', '$folder' )";
     $data = mysqli_query($conn, $query);
 
     if($data)
